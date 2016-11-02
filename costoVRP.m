@@ -27,7 +27,8 @@ if length(varargin) > 1
 end
 
 % C�lculo de la distancia total recorrida y de tiempo de inicio por cliente
-sol = varargin{1};
+solrutas = varargin{1};
+sol = solrutas.rutas;
 costo = 0;
 term = zeros(length(sol), 1);
 cap = zeros(length(sol), 1);

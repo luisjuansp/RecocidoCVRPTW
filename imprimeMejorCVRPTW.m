@@ -30,17 +30,11 @@ end
 
 
 fprintf('  f(')
-if length(mejor.x)>1
-   fprintf('%7.3f,',mejor.x(1:length(mejor.x)-1))
-end
-fprintf('%7.3f)=%9.4f',mejor.x(length(mejor.x)),mejor.f)
+fprintf('%i)=%9.4f',length(mejor.x(length(mejor.x)).rutas),mejor.f)
 
 if length(varargin)>=1
    fprintf(' f(')
-   if length(actual.x)>1
-     fprintf('%7.3f,',actual.x(1:length(actual.x)-1))
-   end
-   fprintf('%7.3f)=%9.4f',actual.x(length(actual.x)),actual.f)
+   fprintf('%i)=%9.4f',length(actual.x(length(actual.x)).rutas),actual.f)
 end
 
 if length(varargin)>=2

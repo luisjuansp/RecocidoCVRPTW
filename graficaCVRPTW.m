@@ -1,7 +1,7 @@
-function graficaCVRPTW(u, fname, nc, x, y)
+function graficaCVRPTW(rutas, fname, nc, x, y)
 
 %% Gráfica de clientes
-
+u = rutas.rutas;
 delta = -0.5;
 clf
 dg = 5;
@@ -20,7 +20,7 @@ hold off
 
 %% Gráfica y evaluación de una solución u
 
-[costo,b,cap,term] = costoVRP(u);
+[costo,b,cap,term] = costoVRP(rutas);
 delta = 0.5;
 clf
 colores = {'m','r','b','k','g'};

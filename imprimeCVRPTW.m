@@ -1,6 +1,7 @@
-function imprimeCVRPTW(u, nc, l, d, e, capacidad)
+function imprimeCVRPTW(rutas, nc, l, d, e, capacidad)
 
-[costo,b,cap,term] = costoVRP(u);
+u = rutas.rutas;
+[costo,b,cap,term] = costoVRP(rutas);
 
 %% Tabulación de solución 
 

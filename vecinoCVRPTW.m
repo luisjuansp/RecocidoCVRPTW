@@ -1,4 +1,4 @@
-function v = vecinoCVRPTW(varargin)
+function vecino = vecinoCVRPTW(varargin)
 
 persistent d C
 
@@ -8,7 +8,7 @@ if(length(varargin)>1)
     return
 endif
 
-u = varargin{1};
+u = varargin{1}.rutas;
 
 v = u;
 
@@ -59,8 +59,9 @@ if(!removed)
       %Crear la nueva ruta y meterla a la solucion
       rutax = [ruta(1:limite - 1) 1];
       v{length(v) + 1} = rutax;
-      ruta = [1 ruta(1:limite - 1)];
+      ruta = [1 ruta(limite:end)];
       cap = sum(d(ruta));
+      v{i} = ruta;
   endwhile
 endif
 
@@ -82,6 +83,9 @@ while (cap > C)
     %Crear la nueva ruta y meterla a la solucion
     rutax = [ruta(1:limite - 1) 1];
     v{length(v) + 1} = rutax;
-    ruta = [1 ruta(1:limite - 1)];
+    ruta = [1 ruta(limite:end)];
     cap = sum(d(ruta));
+    v{j} = ruta;
 endwhile
+
+vecino.rutas = v;

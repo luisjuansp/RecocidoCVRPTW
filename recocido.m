@@ -116,7 +116,7 @@ if mod(intentos,params.frecImp)==0
    res.uf = [res.uf; u.f];
    res.intentos = [res.intentos; intentos]; 
    res.c = [res.c; c];
-   #params.Imp(mejor,u,intentos,c);
+   params.Imp(mejor,u,intentos,c);
 end
 
 function b = AceptaIntento(u, v)
