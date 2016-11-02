@@ -1,0 +1,23 @@
+%*****************************************************************
+%*                                                               *
+%*   Recocido: Una implemetación de recocido simulado en MATLAB  *
+%*                                                               *
+%*   Copyright (c) Derechos Reservados 2009                      *
+%*   Manuel Valenzuela Rendón                                    *
+%*   valenzuela@itesm.mx                                         *
+%*   http://homepages.mty.itesm.mx/valenzuela                    *
+%*                                                               *
+%*   Departamento de Mecatrónica y Automatización                *
+%*   Tecnológico de Monterrey, Campus Monterrey                  *
+%*   Monterrey, N.L., México                                     *
+%*                                                               *
+%*****************************************************************
+
+Esta es la versión 1.3 de Recocido, una implementación de recocido simulado y búsqueda local en MATLAB. En esta versión se agregó la opción de maximización. Se modificó para incluir la leyenda del Depto. de Mecatrónica y Automatización.
+
+
+En el directorio Documentacion/ se encuentran los scripts busqueda-local.m y recocido-simulado.m que demuestran el uso de las funciones blocal y recocido. 
+
+Ver los archivos 
+   Documentacion/html/busqueda-local.html
+   Documentacion/html/recocido-simulado.html
