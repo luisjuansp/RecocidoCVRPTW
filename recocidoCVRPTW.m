@@ -15,7 +15,7 @@ end
 
 vecinoCVRPTW("init", d, capacidad);
 
-while (length(u) > 13)
+while (length(u) > 20)
     do
       u = vecinoCVRPTW(u);
     until(costoVRP(u)>costoVRP(v))
