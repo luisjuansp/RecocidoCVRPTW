@@ -14,10 +14,11 @@ v = u;
 
 i = floor(rand * length(u)) + 1; #camino primario a cambiar
 do
-j = floor(rand * length(u)) + 1; #camino secundario
+  j = floor(rand * length(u)) + 1; #camino secundario
 until(i != j)
 
 change = rand * 3;
+removed = false;
 if (true)
     #paso de cliente
     ii = floor(rand * (length(u{i}) - 2)) + 2; #cliente a dar
@@ -26,6 +27,10 @@ if (true)
     v{i}(ii) = [];
     if (length(v{i}) <= 2)
         v(i) = [];
+        removed = true;
+        if(j>i)
+            j = j -1;
+        endif
     endif
 elseif (change > 1)
     #intercambio de cliente
@@ -35,35 +40,48 @@ else
  
 endif
 
-%%Checar que la ruta sea valida de peso
-%ruta = v{i};
-%cap = sum(d(v{i}));
-%while (cap > C)
-%    dem = 0;
-%    limite = length(ruta);
-%    %Checar en donde rompe el limite
-%    for n = 1:length(ruta)
-%        dem = dem + d(ruta(n));
-%        if (dem > C)
-%            limite = n;
-%            break;
-%        endif
-%    endfor
-%    %Dividir lla ruta en dos
-%    %Crear la nueva ruta y meterla a la solucion
-%    rutax = [ruta(1:limite - 1) 1];
-%    indRutax = length(sol) + 1;
-%    sol{indRutax} = rutax;
-%    cap(indRutax) = sum(d(rutax));
-%    ruta = [1 ruta(1:limite - 1)];
-%    for ind = 2:length(rutax)
-%        j = rutax(ind);
-%        i = rutax(ind - 1);
-%        if ind < length(rutax)
-%            b(j) = max(e(j), b(i) + s(i) + D(i, j));
-%            costo = costo + D(i, j);
-%        else
-%            term(indRutax) = max(e(j), b(i) + s(i) + D(i, j));
-%        endif
-%    endfor
-%endwhile
+%Checar que la ruta sea valida de peso
+if(!removed)
+  ruta = v{i};
+  cap = sum(d(ruta));
+  while (cap > C)
+      dem = 0;
+      limite = length(ruta);
+      %Checar en donde rompe el limite
+      for n = 1:length(ruta)
+          dem = dem + d(ruta(n));
+          if (dem > C)
+              limite = n;
+              break;
+          endif
+      endfor
+      %Dividir lla ruta en dos
+      %Crear la nueva ruta y meterla a la solucion
+      rutax = [ruta(1:limite - 1) 1];
+      v{length(v) + 1} = rutax;
+      ruta = [1 ruta(1:limite - 1)];
+      cap = sum(d(ruta));
+  endwhile
+endif
+
+%Checar que la ruta sea valida de peso
+ruta = v{j};
+cap = sum(d(ruta));
+while (cap > C)
+    dem = 0;
+    limite = length(ruta);
+    %Checar en donde rompe el limite
+    for n = 1:length(ruta)
+        dem = dem + d(ruta(n));
+        if (dem > C)
+            limite = n;
+            break;
+        endif
+    endfor
+    %Dividir lla ruta en dos
+    %Crear la nueva ruta y meterla a la solucion
+    rutax = [ruta(1:limite - 1) 1];
+    v{length(v) + 1} = rutax;
+    ruta = [1 ruta(1:limite - 1)];
+    cap = sum(d(ruta));
+endwhile
