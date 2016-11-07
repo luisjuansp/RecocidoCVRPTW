@@ -1,5 +1,19 @@
-function imprimeCVRPTW(rutas, nc, l, d, e, capacidad)
+function imprimeCVRPTW(varargin)
 
+persistent nc l d e capacidad s Dist
+
+if length(varargin)>1
+  nc = varargin{1};
+  l = varargin{2};
+  d = varargin{3};
+  e = varargin{4};
+  capacidad = varargin{5};
+  s = varargin{6};
+  Dist = varargin{7};
+  return
+endif
+
+rutas = varargin{1};
 u = rutas.rutas;
 [costo,b,cap,term] = costoVRP(rutas);
 
@@ -29,6 +43,19 @@ for i=2:length(r)
       end
    end
 end
+
+b = zeros(size(e), 1);
+for i = 1:length(u)
+  ruta = u{i};
+  for ind = 2:length(ruta) - 1
+      jj = ruta(ind);
+      ii = ruta(ind - 1);
+      if ind < length(ruta)
+          b(jj) = max(e(jj), b(ii) + s(ii) + Dist(ii, jj));
+      endif
+  endfor
+endfor
+
 cond1 = e<=b; % atender después de ready time
 cond2 = b<=l; % atender antes de due date
 fprintf('\n')

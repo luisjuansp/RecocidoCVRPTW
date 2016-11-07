@@ -1,10 +1,14 @@
 function vecino = vecinoCVRPTW(varargin)
 
-persistent d C
+persistent d C e l s Dist
 
 if(length(varargin)>1)
     d = varargin{2};
     C = varargin{3};
+    e = varargin{4};
+    l = varargin{5};
+    s = varargin{6};
+    Dist = varargin{7};
     return
 endif
 
@@ -17,9 +21,9 @@ do
   j = floor(rand * length(u)) + 1; #camino secundario
 until(i != j)
 
-change = rand * 3;
+change = floor(rand * 3);
 removed = false;
-if (true)
+if (change == 0)
     #paso de cliente
     ii = floor(rand * (length(u{i}) - 2)) + 2; #cliente a dar
     jj = floor(rand * (length(u{j}) - 1)) + 1; #lugar donde poner
@@ -32,60 +36,36 @@ if (true)
             j = j -1;
         endif
     endif
-elseif (change > 1)
-    #intercambio de cliente
- 
-else
+elseif (change == 1)
+    #intercambio de clientes
+    ii1 = floor(rand * (length(u{i}) - 2)) + 2;#primera posicion de la ruta 1
+    ii2 = floor(rand * (length(u{i}) - ii1)) + ii1;#segunda posicion de la ruta 1
+    jj1 = floor(rand * (length(u{j}) - 2)) + 2;#primera posicion de la ruta 2
+    jj2 = floor(rand * (length(u{j}) - jj1)) + jj1;#primera posicion de la ruta 2
+    v{i} = [u{i}(1:ii1 - 1) u{j}(jj1:jj2) u{i}(ii2 + 1:length(u{i}))];
+    v{j} = [u{j}(1:jj1 - 1) u{i}(ii1:ii2) u{j}(jj2 + 1:length(u{j}))];
+else 
     #cambio de orden
- 
+    if (length(u{i}) > 4)'
+      ruta1 = v{i};
+      ii1 = floor(rand * (length(u{i}) - 3)) + 2;#primera posicion de la ruta 1
+      ii2 = floor(rand * (length(u{i}) - (ii1 + 1))) + ii1;#segunda posicion de la ruta 1
+      ii3 = floor(rand * (length(u{i}) - (ii2 + 1))) + ii2 + 1;#tercera posicion de la ruta 3
+      ii4 = floor(rand * (length(u{i}) - (ii3 + 1))) + ii3;#cuarta posicion de la ruta 
+      v{i} = [u{i}(1:ii1 - 1) u{i}(ii3:ii4) u{i}(ii2 + 1:ii3 - 1) u{i}(ii1:ii2) u{i}(ii4 + 1:length(u{i}))];
+      ruta1 = v{i};
+      padpad = 0;
+    endif
 endif
 
-%Checar que la ruta sea valida de peso
+
+
+%Checar que la ruta  i sea valida
 if(!removed)
-  ruta = v{i};
-  cap = sum(d(ruta));
-  while (cap > C)
-      dem = 0;
-      limite = length(ruta);
-      %Checar en donde rompe el limite
-      for n = 1:length(ruta)
-          dem = dem + d(ruta(n));
-          if (dem > C)
-              limite = n;
-              break;
-          endif
-      endfor
-      %Dividir lla ruta en dos
-      %Crear la nueva ruta y meterla a la solucion
-      rutax = [ruta(1:limite - 1) 1];
-      v{length(v) + 1} = rutax;
-      ruta = [1 ruta(limite:end)];
-      cap = sum(d(ruta));
-      v{i} = ruta;
-  endwhile
+  v = restriccionesCVRPTW(v, i, d, C, e, s, Dist, l);
 endif
 
-%Checar que la ruta sea valida de peso
-ruta = v{j};
-cap = sum(d(ruta));
-while (cap > C)
-    dem = 0;
-    limite = length(ruta);
-    %Checar en donde rompe el limite
-    for n = 1:length(ruta)
-        dem = dem + d(ruta(n));
-        if (dem > C)
-            limite = n;
-            break;
-        endif
-    endfor
-    %Dividir lla ruta en dos
-    %Crear la nueva ruta y meterla a la solucion
-    rutax = [ruta(1:limite - 1) 1];
-    v{length(v) + 1} = rutax;
-    ruta = [1 ruta(limite:end)];
-    cap = sum(d(ruta));
-    v{j} = ruta;
-endwhile
+%Checar que la ruta j sea valida
+v = restriccionesCVRPTW(v, j, d, C, e, s, Dist, l);
 
 vecino.rutas = v;

@@ -29,20 +29,26 @@ if length(varargin)>=1
 end
 
 
-fprintf('  f(')
-fprintf('%i)=%9.4f',length(mejor.x(length(mejor.x)).rutas),mejor.f)
+printf('  f(')
+printf('%i)=%9.4f',length(mejor.x(length(mejor.x)).rutas),mejor.f)
+
+if length(varargin)==0
+  graficaCVRPTW(mejor.x);
+  imprimeCVRPTW(mejor.x);
+end
 
 if length(varargin)>=1
-   fprintf(' f(')
-   fprintf('%i)=%9.4f',length(actual.x(length(actual.x)).rutas),actual.f)
+   printf(' f(')
+   printf('%i)=%9.4f',length(actual.x(length(actual.x)).rutas),actual.f)
 end
 
 if length(varargin)>=2
-   fprintf(' intentos=%d',varargin{2})
+   printf(' intentos=%d',varargin{2})
 end
 
 if length(varargin)>=3
-   fprintf(' c=%f',varargin{3});
+   printf(' c=%f',varargin{3});
 end
 
-fprintf('\n')
+printf('\n')
+fflush(stdout);

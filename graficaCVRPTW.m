@@ -1,4 +1,16 @@
-function graficaCVRPTW(rutas, fname, nc, x, y)
+function graficaCVRPTW(varargin)
+
+persistent fname nc x y
+
+if length(varargin) > 1
+  fname = varargin{1};
+  nc = varargin{2};
+  x = varargin{3};
+  y = varargin{4};
+  return
+end
+
+rutas = varargin{1};
 
 %% Gráfica de clientes
 u = rutas.rutas;

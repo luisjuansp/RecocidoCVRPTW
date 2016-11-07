@@ -1,7 +1,9 @@
 %% Problema de CVRPTW
 
 dir = '/home/lsanchez/Documents/Inteligencia Computacional/Software/Recocido/PSolomon';
-fname = 'rc106'; % archivo de datos
+dir_abraham = 'C:/Users/Abraham/Develop/RecocidoCVRPTW/PSolomon';
+
+fname = 'r101'; % archivo de datos
 [nc, x, y, d, e, l, s, numeroVehiculos, capacidad] = getDataCVRPTW(dir, fname);
 
 costoVRP(nc, x, y, d, e, l, s, capacidad);
@@ -12,8 +14,19 @@ for i = 2:length(nc)
     u.rutas{i - 1} = [1 (nc(i) + 1) 1];
 end
 
+% C�lculo de la matriz de distancias
+Dist = zeros(length(nc));
+for i = 1:length(nc)
+    for j = i + 1:length(nc)
+        Dist(i, j) = norm([x(i) y(i)]-[x(j) y(j)]);
+        Dist(j, i) = Dist(i, j);
+    end
+end
 
-vecinoCVRPTW("init", d, capacidad);
+
+vecinoCVRPTW("init", d, capacidad, e, l, s, Dist);
+graficaCVRPTW(fname, nc, x, y);
+imprimeCVRPTW(nc, l, d, e, capacidad, s, Dist);
 
 %while (length(u) > 13)
 %    do
@@ -37,12 +50,12 @@ vecinoCVRPTW("init", d, capacidad);
 % min: bandera que indica si se est� minimizando (default = 1)
 
 
-c0 = 150;
-p.cadIntAcep = 300;
-p.cadInt = 500;
-p.maxCad = 3;
-p.frecImp = 30;
-p.alfa = 0.9999;
+c0 = 50;
+p.cadIntAcep = 500;
+p.cadInt = 1000;
+p.maxCad = 7;
+p.frecImp = 250;
+p.alfa = 0.99;
 p.variarC = 0;
 p.x0 = u;
 p.FcnObj = @costoVRP;         %funcion objetivo
@@ -51,6 +64,3 @@ p.Imp = @imprimeMejorCVRPTW;       %funcion de impresion
 p.min = 1;
 
 res = recocido(p,c0);
-
-graficaCVRPTW(res.x(end), fname, nc, x, y);
-imprimeCVRPTW(res.x(end), nc, l, d, e, capacidad);

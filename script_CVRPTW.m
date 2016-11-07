@@ -7,7 +7,7 @@ dir = '/home/lsanchez/Documents/Inteligencia Computacional/Software/Recocido/PSo
 cd(dir)
 
 % Leo datos del problema
-fname = 'rc106';                % archivo de datos
+fname = 'r101';                % archivo de datos
 fileID = fopen(strcat(fname,'.txt'));
 C = textscan(fileID,'%n %n %n %n %n %n %n','Delimiter',' ', 'TreatAsEmpty',{'RC106','VEHICLE', 'NUMBER     CAPACITY', 'CUSTOMER', 'CUST NO.  XCOORD.    YCOORD.     DEMAND  READY TIME   DUE DATE   SERVICE TIME'});
 fclose(fileID);
@@ -35,14 +35,16 @@ AA = textscan(fid,'%s');
 fclose(fid);
 BB = AA{1};
 nRutas = str2num(BB{3});
-u = {};
+u={};
+u.rutas = [];
 for i=1:nRutas
    tmp = BB{3+i};
    tmp = textscan(tmp,'%n', 'Delimiter', '-');
    t = tmp{1}'+1;
-   u{i} = [1 t(1:end-1) 1];
+   u.rutas{i} = [1 t(1:end-1) 1];
 end
 
+u.rutas = u
 
 % Regreso al directorio original
 cd(dirIni)

@@ -40,6 +40,8 @@ for nRuta = 1:length(sol)
         j = ruta(ind);
         i = ruta(ind - 1);
         if ind < length(ruta)
+%            disp(j);
+%            fflush(stdout);
             b(j) = max(e(j), b(i) + s(i) + D(i, j));
             costo = costo + D(i, j);
         else
